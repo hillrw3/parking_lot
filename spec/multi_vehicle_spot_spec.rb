@@ -11,7 +11,7 @@ describe MultiVehicleSpot do
 
       spot = MultiVehicleSpot.new
 
-      expect(spot.fill_spot(vehicle1, vehicle2, vehicle3, vehicle4)).to match_array([vehicle1, vehicle2, vehicle4])
+      expect(spot.fill([vehicle1, vehicle2, vehicle3, vehicle4])).to match_array([vehicle1, vehicle2, vehicle4])
     end
 
     it 'maximizes profits' do
@@ -22,7 +22,7 @@ describe MultiVehicleSpot do
 
       spot = MultiVehicleSpot.new
 
-      expect(spot.fill_spot(dodge, jaguar, mercedes, audi)).to match_array([dodge, mercedes, audi])
+      expect(spot.fill([dodge, jaguar, mercedes, audi])).to match_array([dodge, mercedes, audi])
     end
 
     it 'handles when all vehicles fit' do
@@ -32,7 +32,7 @@ describe MultiVehicleSpot do
 
       spot = MultiVehicleSpot.new
 
-      expect(spot.fill_spot(dodge, mercedes, audi)).to match_array([dodge, mercedes, audi])
+      expect(spot.fill([dodge, mercedes, audi])).to match_array([dodge, mercedes, audi])
     end
   end
 end

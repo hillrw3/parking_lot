@@ -1,13 +1,25 @@
-class MultiVehicleSpot
-  attr_reader :size
+require_relative 'spot'
 
-  def initialize
-    @size = 50
+class MultiVehicleSpot < Spot
+  attr_accessor :available
+  attr_reader :size, :level
+  TYPE = :multi_vehicle
+
+  def initialize(size: 50, level: 1)
+    super(size: size, level: level)
   end
 
-  def fill_spot(*vehicles)
+  def fill(vehicles)
     vehicle_combinations = vehicle_combinations_that_fit(vehicles)
     combination_with_most_profit(vehicle_combinations)
+  end
+
+  def available?
+    available
+  end
+
+  def type
+    TYPE
   end
 
   private
