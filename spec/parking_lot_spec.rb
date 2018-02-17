@@ -1,33 +1,31 @@
 require 'spec_helper'
 require_relative '../app/parking_lot'
-require_relative '../app/level'
 require_relative '../app/single_vehicle_spot'
 require_relative '../app/vehicle'
 
 describe ParkingLot do
   describe '#find_parking_spot' do
     it 'finds a level and spot with availability' do
-      spot = SingleVehicleSpot.new(10)
-      level = Level.new([spot])
-      lot = ParkingLot.new([level])
+      spot = SingleVehicleSpot.new(10, 1)
+      lot = ParkingLot.new([spot])
       vehicle = Vehicle.new(10, 100)
 
       available_spot = lot.find_parking_spot(vehicle)
 
-      expect(available_spot).to eq [level, spot]
+      expect(available_spot).to eq spot
     end
 
     it 'finds the first level that has availability' do
-      spot = SingleVehicleSpot.new(10)
-      level1 = Level.new([])
-      level2 = Level.new([spot])
-      level3 = Level.new([spot])
-      lot = ParkingLot.new([level1, level2, level3])
+      spot1 = SingleVehicleSpot.new(10, 1)
+      spot1.available = false
+      spot2 = SingleVehicleSpot.new(10, 2)
+      spot3 = SingleVehicleSpot.new(10, 3)
+      lot = ParkingLot.new([spot1, spot2, spot3])
       vehicle = Vehicle.new(10, 100)
 
       available_spot = lot.find_parking_spot(vehicle)
 
-      expect(available_spot).to eq [level2, spot]
+      expect(available_spot).to eq spot2
     end
 
     it 'returns a friendly message if there is no availability' do
@@ -37,6 +35,17 @@ describe ParkingLot do
       available_spot = lot.find_parking_spot(vehicle)
 
       expect(available_spot).to eq 'Sorry, this parking lot is full'
+    end
+
+    it 'claims the available spot' do
+      spot = SingleVehicleSpot.new(10, 1)
+      allow(spot).to receive(:claim)
+      lot = ParkingLot.new([spot])
+      vehicle = Vehicle.new(10, 100)
+
+      lot.find_parking_spot(vehicle)
+
+      expect(spot).to have_received(:claim)
     end
   end
 end

@@ -1,14 +1,16 @@
 class ParkingLot
-  attr_reader :levels
+  attr_reader :spots
 
-  def initialize(levels)
-    @levels = levels
+  def initialize(spots)
+    @spots = spots.sort_by(&:level)
   end
 
   def find_parking_spot(vehicle)
-    levels.each do |level|
-      available_spot = level.find_available_spot(vehicle)
-      return [level, available_spot] if available_spot
+    spots.each do |spot|
+      if spot.available?(vehicle)
+        spot.claim
+        return spot
+      end
     end
 
     'Sorry, this parking lot is full'

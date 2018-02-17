@@ -1,9 +1,10 @@
 class SingleVehicleSpot
   attr_accessor :available
-  attr_reader :size
+  attr_reader :size, :level
 
-  def initialize(size)
+  def initialize(size, level=1)
     @size = size
+    @level = level
     @available = true
   end
 
