@@ -10,4 +10,8 @@ class Spot
   def available?(vehicle)
     available && size >= vehicle.size
   end
+
+  def claim
+    self.available = false
+  end
 end

@@ -6,6 +6,8 @@ class Level
   end
 
   def find_available_spot(vehicle)
-    spots.select {|spot| spot.available?(vehicle)}.any?
+    spot = spots.find {|spot| spot.available?(vehicle)}
+    spot.claim if spot
+    spot
   end
 end

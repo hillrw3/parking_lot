@@ -4,30 +4,37 @@ require_relative '../app/spot'
 
 describe Level do
   describe '#has_available_spot?' do
-    it 'returns true if level has a spot that is available that fits the vehicle' do
-      spot = Spot.new(10)
-      level = Level.new([spot])
-      vehicle = Vehicle.new(5, 5)
-
-      expect(level.find_available_spot(vehicle)).to be true
-    end
-
-    it 'returns false if all spots are filled' do
-      spot = Spot.new(10)
-      spot.available = false
-      level = Level.new([spot])
-      vehicle = Vehicle.new(5, 5)
-
-      expect(level.find_available_spot(vehicle)).to be false
-    end
-
-    it 'returns false if all open spots are too small' do
+    it 'returns the first available spot' do
       spot1 = Spot.new(10)
-      spot2 = Spot.new(15)
+      allow(spot1).to receive(:available?) { false }
+      spot2 = Spot.new(10)
+      allow(spot2).to receive(:available?) { true }
       level = Level.new([spot1, spot2])
-      vehicle = Vehicle.new(20, 5)
+      vehicle = Vehicle.new(5, 5)
 
-      expect(level.find_available_spot(vehicle)).to be false
+      expect(level.find_available_spot(vehicle)).to eq spot2
+    end
+
+    it 'returns nil if there is no availability' do
+      spot = Spot.new(10)
+      allow(spot).to receive(:available?) { false }
+
+      level = Level.new([spot])
+      vehicle = Vehicle.new(5, 5)
+
+      expect(level.find_available_spot(vehicle)).to be nil
+    end
+
+    it 'claims the spot if there is availability' do
+      spot = Spot.new(10)
+      allow(spot).to receive(:available?) { true }
+      allow(spot).to receive(:claim)
+      level = Level.new([spot])
+      vehicle = Vehicle.new(5, 5)
+
+      level.find_available_spot(vehicle)
+
+      expect(spot).to have_received(:claim)
     end
   end
 end

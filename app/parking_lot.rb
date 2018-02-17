@@ -7,7 +7,10 @@ class ParkingLot
 
   def find_parking_spot(vehicle)
     levels.each do |level|
-      return level if level.find_available_spot(vehicle)
+      available_spot = level.find_available_spot(vehicle)
+      return [level, available_spot] if available_spot
     end
+
+    'Sorry, this parking lot is full'
   end
 end
