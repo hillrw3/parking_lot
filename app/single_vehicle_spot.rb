@@ -1,4 +1,4 @@
-class Spot
+class SingleVehicleSpot
   attr_accessor :available
   attr_reader :size
 

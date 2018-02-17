@@ -1,5 +1,5 @@
 class Vehicle
-  attr_reader :size
+  attr_reader :size, :cost
 
   def initialize(size, cost)
     @size = size

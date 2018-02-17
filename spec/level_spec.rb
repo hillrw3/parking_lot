@@ -1,13 +1,13 @@
 require 'spec_helper'
 require_relative '../app/level'
-require_relative '../app/spot'
+require_relative '../app/single_vehicle_spot'
 
 describe Level do
   describe '#has_available_spot?' do
     it 'returns the first available spot' do
-      spot1 = Spot.new(10)
+      spot1 = SingleVehicleSpot.new(10)
       allow(spot1).to receive(:available?) { false }
-      spot2 = Spot.new(10)
+      spot2 = SingleVehicleSpot.new(10)
       allow(spot2).to receive(:available?) { true }
       level = Level.new([spot1, spot2])
       vehicle = Vehicle.new(5, 5)
@@ -16,7 +16,7 @@ describe Level do
     end
 
     it 'returns nil if there is no availability' do
-      spot = Spot.new(10)
+      spot = SingleVehicleSpot.new(10)
       allow(spot).to receive(:available?) { false }
 
       level = Level.new([spot])
@@ -26,7 +26,7 @@ describe Level do
     end
 
     it 'claims the spot if there is availability' do
-      spot = Spot.new(10)
+      spot = SingleVehicleSpot.new(10)
       allow(spot).to receive(:available?) { true }
       allow(spot).to receive(:claim)
       level = Level.new([spot])
