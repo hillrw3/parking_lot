@@ -1,6 +1,6 @@
 require 'spec_helper'
-require_relative '../app/single_vehicle_spot'
-require_relative '../app/vehicle'
+require_relative '../app/models/single_vehicle_spot'
+require_relative '../app/models/vehicle'
 
 describe SingleVehicleSpot do
   describe '#available?' do

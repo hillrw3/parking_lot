@@ -1,15 +1,18 @@
+require 'securerandom'
+
 class ParkingLot
-  attr_reader :spots
+  attr_reader :spots, :id
   LOT_FULL_MESSAGE = 'Sorry, this parking lot is full'
 
   def initialize(spots)
     @spots = spots.sort_by(&:level)
+    @id = SecureRandom.hex(3)
   end
 
   def find_parking_spot(vehicle)
     single_vehicle_spots.each do |spot|
       if spot.available?(vehicle)
-        spot.claim
+        spot.claim(vehicle)
         return spot
       end
     end
@@ -20,8 +23,7 @@ class ParkingLot
   def fill_multi_vehicle_parking_spot(vehicles)
     multi_vehicle_spots.each do |spot|
       if spot.available?
-        spot.fill(vehicles)
-        spot.claim
+        spot.claim(vehicles)
         return spot
       end
     end

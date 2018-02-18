@@ -1,8 +1,8 @@
 require 'spec_helper'
-require_relative '../app/parking_lot'
-require_relative '../app/single_vehicle_spot'
-require_relative '../app/multi_vehicle_spot'
-require_relative '../app/vehicle'
+require_relative '../app/models/parking_lot'
+require_relative '../app/models/single_vehicle_spot'
+require_relative '../app/models/multi_vehicle_spot'
+require_relative '../app/models/vehicle'
 
 describe ParkingLot do
   describe '#find_parking_spot' do

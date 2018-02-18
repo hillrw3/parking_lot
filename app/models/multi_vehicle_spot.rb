@@ -2,16 +2,17 @@ require_relative 'spot'
 
 class MultiVehicleSpot < Spot
   attr_accessor :available
-  attr_reader :size, :level
+  attr_reader :size, :level, :occupants
   TYPE = :multi_vehicle
 
   def initialize(size: 50, level: 1)
     super(size: size, level: level)
+    @occupants = []
   end
 
-  def fill(vehicles)
-    vehicle_combinations = vehicle_combinations_that_fit(vehicles)
-    combination_with_most_profit(vehicle_combinations)
+  def claim(vehicles)
+    @occupants = fill(vehicles)
+    self.available = false
   end
 
   def available?
@@ -23,6 +24,11 @@ class MultiVehicleSpot < Spot
   end
 
   private
+
+  def fill(vehicles)
+    vehicle_combinations = vehicle_combinations_that_fit(vehicles)
+    combination_with_most_profit(vehicle_combinations)
+  end
 
   def combination_with_most_profit(vehicle_combos)
     vehicle_combos.sort_by { |vehicle_set| vehicle_set.map(&:cost).sum }.last
